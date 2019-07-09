@@ -6,9 +6,10 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
+import StarIcon from '@material-ui/icons/Star'
+import SettingsIcon from '@material-ui/icons/Settings'
 import MenuIcon from '@material-ui/icons/Menu'
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward'
 
 const useStyles = makeStyles({
   list: {
@@ -47,56 +48,27 @@ export default function SwipeDrawer() {
       onClick={toggleDrawer(side, false)}
       onKeyDown={toggleDrawer(side, false)}>
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  )
+        <ListItem button>
+          <ListItemIcon>
+            <ArrowUpwardIcon />
+          </ListItemIcon>
+          <ListItemText primary={'Top'} />
+        </ListItem>
 
-  const fullList = side => (
-    <div
-      className={classes.fullList}
-      role='presentation'
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}>
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button>
+          <ListItemIcon>
+            <StarIcon />
+          </ListItemIcon>
+          <ListItemText primary={'Starred'} />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary={'Settings'} />
+        </ListItem>
       </List>
       <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
     </div>
   )
 
@@ -108,27 +80,6 @@ export default function SwipeDrawer() {
         onClose={toggleDrawer('left', false)}
         onOpen={toggleDrawer('left', true)}>
         {sideList('left')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor='top'
-        open={state.top}
-        onClose={toggleDrawer('top', false)}
-        onOpen={toggleDrawer('top', true)}>
-        {fullList('top')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor='bottom'
-        open={state.bottom}
-        onClose={toggleDrawer('bottom', false)}
-        onOpen={toggleDrawer('bottom', true)}>
-        {fullList('bottom')}
-      </SwipeableDrawer>
-      <SwipeableDrawer
-        anchor='right'
-        open={state.right}
-        onClose={toggleDrawer('right', false)}
-        onOpen={toggleDrawer('right', true)}>
-        {sideList('right')}
       </SwipeableDrawer>
     </div>
   )
