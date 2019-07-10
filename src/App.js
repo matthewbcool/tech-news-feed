@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 import Header from './components/Header'
 import ArticlePanel from './components/ArticlePanel'
+import List from '@material-ui/core/List'
 
 function App() {
   const dummyArticleTitles = [
@@ -159,7 +160,8 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   return (
     <div className='App'>
       <Header />
-      {getArticles()}
+      <List>{getArticles()}</List>
+
       <img src={logo} className='App-logo' alt='logo' />
     </div>
   )

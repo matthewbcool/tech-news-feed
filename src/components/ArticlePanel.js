@@ -1,10 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel'
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
-import Typography from '@material-ui/core/Typography'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 import StarIcon from '@material-ui/icons/Star'
 
 const useStyles = makeStyles(theme => ({
@@ -30,23 +28,8 @@ export default function ArticlePanel(props) {
   const classes = useStyles()
 
   return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls='panel1a-content'
-        id='panel1a-header'>
-        <Typography className={classes.heading}>
-          {props.articleTitle}
-        </Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails
-        style={{ display: 'flex', flexDirection: 'column' }}>
-        <StarIcon className={classes.starIcon} />
-        <Typography className={classes.linkText}>
-          {<a>Link to original article</a>}
-        </Typography>
-        <Typography>{props.articleData}</Typography>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+    <ListItem button>
+      <ListItemText primary={props.articleTitle} />
+    </ListItem>
   )
 }
