@@ -4,6 +4,9 @@ import './App.css'
 import Header from './components/Header'
 import ArticlePanel from './components/ArticlePanel'
 import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Article from './components/Article'
+import { Router } from '@reach/router'
 
 function App() {
   const dummyArticleTitles = [
@@ -146,22 +149,61 @@ and concurrency, processes and process improvement, risk management, security, t
 It’s only supposed to be a taster but I have to trade off introducing everything with showing the value present in anything. What this shows, as I found when I wrote APPropriate Behaviour, is that there’s a load that goes into being a programmer that is not programming.`
   ]
 
+  const [readArticles, setToRead] = useState([])
+  const [currentArticle, setToCurrentArticle] = useState(
+    <Article path={'/article'} />
+  )
+
   const getArticles = () =>
     dummyArticleTitles.map((articleTitle, index) => {
       return (
-        <ArticlePanel
+        <ListItem
           key={index}
-          articleTitle={articleTitle}
-          articleData={articles[index]}
-        />
+          button
+          onClick={() => {
+            addToReadArticles(index)
+            showArticle(index)
+          }}>
+          <ArticlePanel
+            articleTitle={articleTitle}
+            articleData={articles[index]}
+          />
+        </ListItem>
       )
     })
 
+  const checkForDuplicateArticles = index => {
+    let hasDuplicate = false
+    for (let i = 0; i < readArticles.length; i++) {
+      if (readArticles[i].key === `00${index}`) {
+        hasDuplicate = true
+      }
+    }
+    return hasDuplicate
+  }
+
+  const addToReadArticles = index => {
+    if (checkForDuplicateArticles(index)) {
+      console.log('that article is already in our read list')
+    } else {
+      setToRead([
+        ...readArticles,
+        <Article
+          key={`00${index}`}
+          path={dummyArticleTitles[index]}
+          articleText={articles[index]}
+        />
+      ])
+    }
+  }
+
+  const showArticle = () => {}
+
   return (
-    <div className='App'>
+    <div path='/' className='App'>
       <Header />
       <List>{getArticles()}</List>
-
+      <Router>{currentArticle}</Router>
       <img src={logo} className='App-logo' alt='logo' />
     </div>
   )
