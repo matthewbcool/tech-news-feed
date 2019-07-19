@@ -7,10 +7,11 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Article from './components/Article'
 import { Router } from '@reach/router'
+import { navigate } from '@reach/router'
 
 function App() {
   const dummyArticleTitles = [
-    'South African teens fly from Cape to Cairo in homemade plane',
+    'South African teens fly from Cape to Cairo in home made plane',
     'Camera and microphone require HTTPS in Firefox 68',
     'When bills pile up, young people turn to strangers on Venmo',
     'C. Hoare and Co., a British banking dynasty in business for more than 300 years',
@@ -151,7 +152,10 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
 
   const [readArticles, setToRead] = useState([])
   const [currentArticle, setToCurrentArticle] = useState(
-    <Article path={'/article'} />
+    <Article
+      path={'whenbillspileupyoungpeopleturntostrangersonvenmo'}
+      articleText={articles[2]}
+    />
   )
 
   const getArticles = () =>
@@ -161,8 +165,8 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
           key={index}
           button
           onClick={() => {
-            addToReadArticles(index)
-            showArticle(index)
+            addToReadandSetCurrent(index)
+            navigateToCurrent(articleTitle)
           }}>
           <ArticlePanel
             articleTitle={articleTitle}
@@ -182,23 +186,39 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
     return hasDuplicate
   }
 
-  const addToReadArticles = index => {
+  const parseStringToPath = string => {
+    return string
+      .toLowerCase()
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, '')
+      .replace(/\s/g, '')
+  }
+
+  const addToReadandSetCurrent = index => {
     if (checkForDuplicateArticles(index)) {
       console.log('that article is already in our read list')
     } else {
-      setToRead([
-        ...readArticles,
+      let pathString = parseStringToPath(dummyArticleTitles[index])
+      console.log(pathString)
+      let current = (
         <Article
           key={`00${index}`}
-          path={dummyArticleTitles[index]}
+          path={pathString}
           articleText={articles[index]}
         />
-      ])
+      )
+      console.log(current)
+      setToCurrentArticle(current)
+      setToRead([...readArticles, current])
+      console.log(currentArticle)
     }
   }
+  const navigateToCurrent = articleTitle => {
+    let pathString = parseStringToPath(articleTitle)
+    navigate(pathString)
+  }
 
-  const showArticle = () => {}
-
+  const testPath = parseStringToPath(dummyArticleTitles[2])
+  console.log(testPath)
   return (
     <div path='/' className='App'>
       <Header />

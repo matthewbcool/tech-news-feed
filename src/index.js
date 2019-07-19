@@ -7,7 +7,7 @@ import { Router } from '@reach/router'
 
 ReactDOM.render(
   <Router>
-    <App path='/' />
+    <App path='/*' />
   </Router>,
   document.getElementById('root')
 )
