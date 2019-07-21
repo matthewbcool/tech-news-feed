@@ -6,6 +6,7 @@ import ArticlePanel from './components/ArticlePanel'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Article from './components/Article'
+import Slide from '@material-ui/core/Slide'
 import { Router } from '@reach/router'
 import { navigate } from '@reach/router'
 
@@ -151,12 +152,8 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   ]
 
   const [readArticles, setToRead] = useState([])
-  const [currentArticle, setToCurrentArticle] = useState(
-    <Article
-      path={'whenbillspileupyoungpeopleturntostrangersonvenmo'}
-      articleText={articles[2]}
-    />
-  )
+  const [currentArticle, setToCurrentArticle] = useState('')
+  const [showList, setShowList] = useState(true)
 
   const getArticles = () =>
     dummyArticleTitles.map((articleTitle, index) => {
@@ -194,20 +191,19 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   }
 
   const addToReadandSetCurrent = index => {
+    let pathString = parseStringToPath(dummyArticleTitles[index])
+    let current = (
+      <Article
+        key={`00${index}`}
+        path={pathString}
+        articleTitle={dummyArticleTitles[index]}
+        articleText={articles[index]}
+      />
+    )
+    setToCurrentArticle(current)
     if (checkForDuplicateArticles(index)) {
       console.log('that article is already in our read list')
     } else {
-      let pathString = parseStringToPath(dummyArticleTitles[index])
-      console.log(pathString)
-      let current = (
-        <Article
-          key={`00${index}`}
-          path={pathString}
-          articleText={articles[index]}
-        />
-      )
-      console.log(current)
-      setToCurrentArticle(current)
       setToRead([...readArticles, current])
       console.log(currentArticle)
     }
@@ -215,15 +211,22 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   const navigateToCurrent = articleTitle => {
     let pathString = parseStringToPath(articleTitle)
     navigate(pathString)
+    handleListSlide()
   }
 
-  const testPath = parseStringToPath(dummyArticleTitles[2])
-  console.log(testPath)
+  const handleListSlide = () => {
+    setShowList(prev => !prev)
+  }
+
   return (
     <div path='/' className='App'>
       <Header />
-      <List>{getArticles()}</List>
+      <Slide direction='right' in={showList} mountOnEnter unmountOnExit>
+        <List>{getArticles()}</List>
+      </Slide>
+
       <Router>{currentArticle}</Router>
+
       <img src={logo} className='App-logo' alt='logo' />
     </div>
   )
