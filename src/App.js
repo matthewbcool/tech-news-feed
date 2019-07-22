@@ -221,13 +221,20 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   return (
     <div path='/' className='App'>
       <Header />
-      <Slide direction='right' in={showList} mountOnEnter unmountOnExit>
+      <Slide
+        direction='right'
+        in={showList}
+        timeout={{
+          appear: 0,
+          enter: 400,
+          exit: 0
+        }}
+        mountOnEnter
+        unmountOnExit>
         <List>{getArticles()}</List>
       </Slide>
 
       <Router>{currentArticle}</Router>
-
-      <img src={logo} className='App-logo' alt='logo' />
     </div>
   )
 }
