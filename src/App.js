@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import Header from './components/Header'
 import ArticlePanel from './components/ArticlePanel'
@@ -8,7 +8,7 @@ import Article from './components/Article'
 import Slide from '@material-ui/core/Slide'
 import { Router, Link } from '@reach/router'
 
-function App() {
+function App(props) {
   const dummyArticleTitles = [
     'South African teens fly from Cape to Cairo in home made plane',
     'Camera and microphone require HTTPS in Firefox 68',
@@ -152,6 +152,14 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   const [readArticles, setToRead] = useState([])
   const [isArticleDisplay, setArticleDisplay] = useState(false)
 
+  useEffect(() => {
+    if (props.location.pathname !== '/') {
+      setArticleDisplay(true)
+    } else {
+      setArticleDisplay(false)
+    }
+  })
+
   const parseStringToPath = string => {
     return string
       .toLowerCase()
@@ -163,12 +171,7 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
     dummyArticleTitles.map((articleTitle, index) => {
       return (
         <Link key={`nav${index}`} to={parseStringToPath(articleTitle)}>
-          <ListItem key={index} button>
-            <ArticlePanel
-              articleTitle={articleTitle}
-              articleData={articles[index]}
-            />
-          </ListItem>
+          <ArticlePanel articleTitle={articleTitle} />
         </Link>
       )
     })
@@ -178,7 +181,7 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
       let pathString = parseStringToPath(dummyArticleTitles[index])
       return (
         <Article
-          key={`00${index}`}
+          key={`${index}view`}
           path={pathString}
           articleTitle={dummyArticleTitles[index]}
           articleText={article}

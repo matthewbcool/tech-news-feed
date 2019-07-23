@@ -1,6 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core/'
+import VoteBox from './VoteBox'
+import StarIcon from '@material-ui/icons/Star'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,16 +14,23 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left'
   },
   linkText: {
-    color: 'blue',
-    textDecoration: 'underline',
-    marginBottom: '0.5em'
+    color: 'black'
   },
   starIcon: {
-    color: 'darkorange'
+    color: 'grey',
+    alignItems: 'center'
   }
 }))
 
 export default function ArticlePanel(props) {
   const classes = useStyles()
-  return <ListItemText primary={props.articleTitle} />
+  return (
+    <ListItem button>
+      <ListItemIcon>
+        <StarIcon />
+      </ListItemIcon>
+      <ListItemText className={classes.linkText} primary={props.articleTitle} />
+      <VoteBox />
+    </ListItem>
+  )
 }
