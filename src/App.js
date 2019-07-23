@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import Header from './components/Header'
 import ArticlePanel from './components/ArticlePanel'
@@ -7,8 +6,7 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Article from './components/Article'
 import Slide from '@material-ui/core/Slide'
-import { Router } from '@reach/router'
-import { navigate } from '@reach/router'
+import { Router, Link } from '@reach/router'
 
 function App() {
   const dummyArticleTitles = [
@@ -152,36 +150,7 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   ]
 
   const [readArticles, setToRead] = useState([])
-  const [currentArticle, setToCurrentArticle] = useState('')
-  const [showList, setShowList] = useState(true)
-
-  const getArticles = () =>
-    dummyArticleTitles.map((articleTitle, index) => {
-      return (
-        <ListItem
-          key={index}
-          button
-          onClick={() => {
-            addToReadandSetCurrent(index)
-            navigateToCurrent(articleTitle)
-          }}>
-          <ArticlePanel
-            articleTitle={articleTitle}
-            articleData={articles[index]}
-          />
-        </ListItem>
-      )
-    })
-
-  const checkForDuplicateArticles = index => {
-    let hasDuplicate = false
-    for (let i = 0; i < readArticles.length; i++) {
-      if (readArticles[i].key === `00${index}`) {
-        hasDuplicate = true
-      }
-    }
-    return hasDuplicate
-  }
+  const [isArticleDisplay, setArticleDisplay] = useState(false)
 
   const parseStringToPath = string => {
     return string
@@ -190,51 +159,68 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
       .replace(/\s/g, '')
   }
 
-  const addToReadandSetCurrent = index => {
-    let pathString = parseStringToPath(dummyArticleTitles[index])
-    let current = (
-      <Article
-        key={`00${index}`}
-        path={pathString}
-        articleTitle={dummyArticleTitles[index]}
-        articleText={articles[index]}
-      />
-    )
-    setToCurrentArticle(current)
-    if (checkForDuplicateArticles(index)) {
-      console.log('that article is already in our read list')
-    } else {
-      setToRead([...readArticles, current])
-      console.log(currentArticle)
-    }
-  }
-  const navigateToCurrent = articleTitle => {
-    let pathString = parseStringToPath(articleTitle)
-    navigate(pathString)
-    handleListSlide()
-  }
+  const getArticlesList = () =>
+    dummyArticleTitles.map((articleTitle, index) => {
+      return (
+        <Link key={`nav${index}`} to={parseStringToPath(articleTitle)}>
+          <ListItem key={index} button>
+            <ArticlePanel
+              articleTitle={articleTitle}
+              articleData={articles[index]}
+            />
+          </ListItem>
+        </Link>
+      )
+    })
 
-  const handleListSlide = () => {
-    setShowList(prev => !prev)
+  const getArticles = () =>
+    articles.map((article, index) => {
+      let pathString = parseStringToPath(dummyArticleTitles[index])
+      return (
+        <Article
+          key={`00${index}`}
+          path={pathString}
+          articleTitle={dummyArticleTitles[index]}
+          articleText={article}
+        />
+      )
+    })
+
+  /* if (checkForDuplicateArticles(index)) {
+    console.log('that article is already in our read list')
+  } else {
+    setToRead([...readArticles, current])
+    console.log(currentArticle)
   }
+  const checkForDuplicateArticles = index => {
+    let hasDuplicate = false
+    for (let i = 0; i < readArticles.length; i++) {
+      if (readArticles[i].key === `00${index}`) {
+        hasDuplicate = true
+      }
+    }
+    return hasDuplicate
+  } */
 
   return (
-    <div path='/' className='App'>
+    <div>
       <Header />
-      <Slide
-        direction='right'
-        in={showList}
-        timeout={{
-          appear: 0,
-          enter: 400,
-          exit: 0
-        }}
-        mountOnEnter
-        unmountOnExit>
-        <List>{getArticles()}</List>
-      </Slide>
+      <div className='App'>
+        <Slide
+          direction='right'
+          in={!isArticleDisplay}
+          timeout={{
+            appear: 0,
+            enter: 400,
+            exit: 0
+          }}
+          mountOnEnter
+          unmountOnExit>
+          <List>{getArticlesList()}</List>
+        </Slide>
+      </div>
 
-      <Router>{currentArticle}</Router>
+      <Router>{getArticles()}</Router>
     </div>
   )
 }
