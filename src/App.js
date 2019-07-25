@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-import Header from './components/Header'
 import ArticlePanel from './components/ArticlePanel'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
+import Header from './components/Header'
 import Article from './components/Article'
 import Slide from '@material-ui/core/Slide'
 import { Router, Link } from '@reach/router'
@@ -221,9 +220,8 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
           unmountOnExit>
           <List>{getArticlesList()}</List>
         </Slide>
+        <Router>{getArticles()}</Router>
       </div>
-
-      <Router>{getArticles()}</Router>
     </div>
   )
 }
