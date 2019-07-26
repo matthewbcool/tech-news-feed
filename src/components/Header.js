@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  backColor: {
+    backgroundColor: 'black'
   }
 }))
 
@@ -24,7 +27,7 @@ export default function Header() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar className={classes.backColor} position='static'>
         <Toolbar>
           <IconButton
             edge='start'

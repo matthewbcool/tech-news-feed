@@ -6,15 +6,12 @@ import StarIcon from '@material-ui/icons/Star'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%'
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: 'bold',
-    textAlign: 'left'
+    width: '100%',
+    fontSize: '3.5em'
   },
   linkText: {
-    color: 'black'
+    color: 'black',
+    fontSize: '1.2rem'
   },
   starIcon: {
     color: 'grey',
@@ -26,10 +23,12 @@ export default function ArticlePanel(props) {
   const classes = useStyles()
   return (
     <ListItem button>
-      <ListItemIcon>
+      <ListItemIcon button>
         <StarIcon />
       </ListItemIcon>
-      <ListItemText className={classes.linkText} primary={props.articleTitle} />
+      <ListItemText classes={{ primary: classes.linkText }}>
+        {props.articleTitle}
+      </ListItemText>
       <VoteBox />
     </ListItem>
   )
