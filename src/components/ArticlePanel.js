@@ -1,6 +1,11 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core/'
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Container
+} from '@material-ui/core/'
 import VoteBox from './VoteBox'
 import StarIcon from '@material-ui/icons/Star'
 import { Link } from '@reach/router'
@@ -22,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left'
   },
   linkWrapper: {
-    width: '400px',
     textAlign: 'left'
   }
 }))
@@ -35,11 +39,11 @@ export default function ArticlePanel(props) {
         <StarIcon />
       </ListItemIcon>
       <Link to={props.parsedArticleTitle}>
-        <div className={classes.linkWrapper}>
+        <Container className={classes.linkWrapper}>
           <ListItemText classes={{ primary: classes.linkText }}>
             {props.articleTitle}
           </ListItemText>
-        </div>
+        </Container>
       </Link>
       <VoteBox />
     </ListItem>
