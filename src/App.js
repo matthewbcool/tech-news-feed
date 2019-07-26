@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
+import { makeStyles } from '@material-ui/core/styles'
 import ArticlePanel from './components/ArticlePanel'
 import List from '@material-ui/core/List'
 import Header from './components/Header'
 import Article from './components/Article'
 import Slide from '@material-ui/core/Slide'
-import { Router, Link } from '@reach/router'
+import { Router } from '@reach/router'
 
 function App(props) {
+  const useStyles = makeStyles(theme => ({
+    listBackGround: {
+      backgroundColor: 'lime'
+    }
+  }))
+  const classes = useStyles()
+
   const dummyArticleTitles = [
     'South African teens fly from Cape to Cairo in home made plane',
     'Camera and microphone require HTTPS in Firefox 68',
@@ -169,9 +177,12 @@ It’s only supposed to be a taster but I have to trade off introducing everythi
   const getArticlesList = () =>
     dummyArticleTitles.map((articleTitle, index) => {
       return (
-        <Link key={`nav${index}`} to={parseStringToPath(articleTitle)}>
-          <ArticlePanel articleTitle={articleTitle} />
-        </Link>
+        <ArticlePanel
+          key={index}
+          className={classes.listBackGround}
+          articleTitle={articleTitle}
+          parsedArticleTitle={parseStringToPath(articleTitle)}
+        />
       )
     })
 
